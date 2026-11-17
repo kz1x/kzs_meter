@@ -250,10 +250,9 @@
     <div id="chart"></div>
   </div><div class="footer">NOT FINANCIAL ADVICE &middot; CONFIDENCE, FLIP RISK AND ACTION ARE PLACEHOLDER FORMULAS, NOT THE INDICATOR&#39;S LOGIC</div>
 </div>
-
-<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script><script>
-  initChart();
-  const API = "http://localhost:8000/api/market";
+  <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<script>
+  const API = "https://applicants-hispanic-cube-tracy.trycloudflare.com/api/market";
   const WINDOW = 15 * 60;
   const $ = id => document.getElementById(id);
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -374,7 +373,6 @@
 
       renderBook(d.book, d.yesBid, d.noBid);
       renderGold(d.gold);
-      updateChart(d.btcSpot, d.btcTarget);
       $("settled").innerHTML = settled.map(x => `<span class="badge ${x.startsWith("UP") ? "up" : "down"}">${x.startsWith("UP") ? UP_ARROW : DOWN_ARROW} ${x}</span>`).join("");
     } catch (e) {
       $("mode-text").textContent = "OFFLINE";
@@ -419,8 +417,11 @@
     const dedup = chartPts.filter((p, i, a) => i === 0 || p.time > a[i - 1].time);
     spotSeries.setData(dedup);
     if (strike) strikeSeries.setData(dedup.map(p => ({ time: p.time, value: strike })));
-  }</script>
+  }if (!window.LightweightCharts) { $("chart").innerHTML = "<div class=`"sub`">chart library blocked or offline. Data still works.</div>"; } else { initChart(); }</script>
 </body>
 </html>
+
+
+
 
 
